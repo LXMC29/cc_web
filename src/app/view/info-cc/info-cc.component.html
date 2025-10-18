@@ -1,0 +1,194 @@
+<!-- HEADER / NAVBAR -->
+<header class="info-cc">
+  <nav class="navbar">
+    <div class="nav-left">
+      <img src="assets/images/Social/logo.jpg" alt="Logo" class="nav-logo" />
+    </div>
+
+    <!-- Menu icon -->
+    <button class="hamburger" (click)="toggleMenu()">☰</button>
+
+    <ul class="nav-menu" [class.open]="isMenuOpen">
+      <li *ngFor="let item of sections">
+        <a
+          href="javascript:void(0)"
+          [class.active]="activeSection === item.id"
+          (click)="scrollToSection(item.id)"
+        >
+          {{ item.label }}
+        </a>
+      </li>
+    </ul>
+
+    <!-- DROPDOWN LANG -->
+    <div class="lang-select" (click)="$event.stopPropagation()">
+      <button class="lang-btn" [class.active]="langOpen" (click)="toggleLang()">
+        <img
+          [src]="currentLang.flag"
+          [alt]="currentLang.code"
+          class="nav-flag"
+        />
+        <span class="lang-text">{{ currentLang.short }}</span>
+        <span class="arrow">▼</span>
+      </button>
+
+      <ul class="dropdown" *ngIf="langOpen">
+        <li *ngFor="let l of langs" (click)="setLang(l)">
+          <img [src]="l.flag" [alt]="l.code" class="nav-flag" />
+          <span>{{ l.label }}</span>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<!-- MAIN -->
+<main class="main" (click)="closeLang()">
+  <!-- ABOUT (no avatar) -->
+  <section id="about" class="about-section">
+    <div class="info">
+      <h1>Lê Xuân Minh Chiến</h1>
+      <h1>(Cò)</h1>
+      <h3>FULLSTACK DEVELOPER</h3>
+      <p>
+        I am a software developer, and my strengths include backend development
+        with .NET, working with databases such as MSSQL, Oracle, and MongoDB, as
+        well as frontend development with Angular, HTML, CSS, JavaScript, and
+        TypeScript.
+      </p>
+      <div class="status">
+        <button aria-label="play" class="music-btn" (click)="toggleMusic()">
+          <!-- Khi chưa phát -->
+          <span *ngIf="!isPlaying" class="play-icon">▶</span>
+
+          <!-- Khi đang phát -->
+          <span *ngIf="isPlaying" class="equalizer">
+            <span></span><span></span><span></span>
+          </span>
+        </button>
+
+        <span [class.playing-text]="isPlaying">
+          {{ isPlaying ? "Waiting for you ...." : "Waiting for you ...." }}
+        </span>
+
+        <!-- Nhúng YouTube ẩn -->
+        <iframe
+          *ngIf="isPlaying"
+          width="0"
+          height="0"
+          src="https://www.youtube.com/embed/CHw1b_1LVBA?autoplay=1"
+          title="Background Music"
+          allow="autoplay"
+          frameborder="0"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skill" class="skills-section">
+    <h2>Skills & Expertise</h2>
+    <div class="skills-grid">
+      <div class="skill-item" *ngFor="let skill of skills">
+        <img [src]="skill.src" [alt]="skill.name" />
+        <span>{{ skill.name }}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="experience-section">
+    <h2>Work Experience</h2>
+
+    <div class="experience-card" *ngFor="let exp of experiences">
+      <table>
+        <tr>
+          <th>{{ exp.company }}</th>
+          <th class="date">{{ exp.date }}</th>
+        </tr>
+        <tr>
+          <td class="title">Client</td>
+          <td>{{ exp.client }}</td>
+        </tr>
+        <tr>
+          <td class="title">Description</td>
+          <td>{{ exp.description }}</td>
+        </tr>
+        <tr>
+          <td class="title">Role</td>
+          <td>{{ exp.role }}</td>
+        </tr>
+        <tr>
+          <td class="title">Team Size</td>
+          <td>{{ exp.teamSize }}</td>
+        </tr>
+        <tr>
+          <td class="title">Function of participation</td>
+          <td>
+            <div
+              style="margin-bottom: 5px"
+              *ngFor="let func of exp.function.split('|')"
+            >
+              • {{ func.trim() }}
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="title">Language</td>
+          <td>{{ exp.language }}</td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- SOCIAL -->
+  <section id="social" class="social-section">
+    <h2>Social Network</h2>
+    <div class="social-grid">
+      <a
+        class="skill-item"
+        *ngFor="let s of socials"
+        [href]="s.href"
+        target="_blank"
+        rel="noopener"
+      >
+        <img [src]="s.icon" [alt]="s.label" /><span>{{ s.label }}</span>
+      </a>
+    </div>
+    <p class="social-note">
+      Please click on some icons to link to my personal page.
+    </p>
+    <p class="social-note1">Thank you!</p>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact-section">
+    <h2>Contact for me</h2>
+    <div class="contact-grid">
+      <div class="left">
+        <p><strong>Phone:</strong> +84 866990209</p>
+        <p><strong>Email:</strong> chiencode&#64;gmail.com</p>
+        <p><strong>Address:</strong> null</p>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4490.904540348875!2d105.34169383212561!3d18.825518204651097!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3139e6cc50300b3d%3A0x18b78d3a7dc62f5f!2zQ2jhu6MgTsO0bmc!5e0!3m2!1svi!2s!4v1760780607832!5m2!1svi!2s"
+          width="600"
+          height="450"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+      <form class="right" (submit)="$event.preventDefault()">
+        <input type="text" placeholder="Name typing..." />
+        <input type="text" placeholder="Phone number or email typing..." />
+        <textarea rows="6" placeholder="Suggestion typing..."></textarea>
+        <button type="submit" class="btn-submit">Submit</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">No copyright © 2025 by ChienCo.</div>
+</footer>

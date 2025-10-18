@@ -1,0 +1,748 @@
+/* =======================
+   🔹 RESET & GLOBAL
+======================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+/* =======================
+   🔹 NAVBAR (fixed)
+======================= */
+
+.info-cc {
+  position: fixed;
+  width: 100%; /* ✅ Full chiều ngang */
+  z-index: 1000;
+  top: 0;
+}
+.navbar {
+  width: 95%;
+  max-width: 1340px; /* ✅ Giới hạn chiều rộng hợp lý */
+  margin: auto;
+  background: rgba(215, 216, 217, 0.9);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 24px;
+  backdrop-filter: blur(10px);
+}
+.nav-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* MENU CHÍNH */
+.nav-menu {
+  list-style: none;
+  display: flex;
+  gap: 36px;
+  flex-wrap: wrap;
+}
+.nav-menu a {
+  text-decoration: none;
+  color: #2b2b2b;
+  font-weight: 600;
+  font-size: 15px;
+}
+.nav-menu a:hover {
+  color: #0077b6;
+}
+.nav-menu a.active {
+  color: #0077b6;
+  border-bottom: 2px solid #0077b6;
+  padding-bottom: 3px;
+  transition: all 0.2s ease;
+}
+
+/* LANG DROPDOWN */
+.lang-select {
+  position: relative;
+}
+.lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+}
+.lang-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+.nav-flag {
+  width: 28px;
+  height: auto;
+  border-radius: 4px;
+}
+.lang-text {
+  font-weight: 600;
+}
+.arrow {
+  font-size: 12px;
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  background: #fff;
+  border-radius: 8px;
+  min-width: 160px;
+  list-style: none;
+  padding: 6px 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.18s ease;
+}
+.dropdown li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+.dropdown li:hover {
+  background: #f1f1f1;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* =======================
+   🔹 MAIN WRAPPER
+======================= */
+.main {
+  width: 95%;
+  max-width: 1340px;
+  margin: 0 auto;
+  padding-top: 95px;
+  background-color: #efe9e4;
+}
+
+/* =======================
+   🔹 ABOUT
+======================= */
+.about-section {
+  // min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 40px;
+}
+.info {
+  max-width: 700px;
+  margin: 0 auto;
+}
+.info h1 {
+  font-family: "Sedgwick Ave", cursive;
+  color: #4a3b2f;
+  font-size: clamp(56px, 6vw, 86px);
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+.info h3 {
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: #7a6a59;
+  text-transform: uppercase;
+  margin-bottom: 25px;
+  margin-top: 36px;
+}
+.info p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 55px;
+}
+
+/* === Layout gốc === */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  padding: 10px 16px;
+  border-radius: 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* === Nút phát nhạc được nâng cấp === */
+.music-btn {
+  border: none;
+  background: linear-gradient(135deg, #6cb5ff, #0077b6);
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  box-shadow: 0 4px 10px rgba(0, 119, 182, 0.35);
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.music-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 12px rgba(108, 181, 255, 0.6);
+}
+
+.music-btn:active {
+  transform: scale(0.95);
+}
+
+/* === Icon play chuẩn chỉnh giữa nút === */
+.play-icon {
+  margin-left: 2px; /* Giúp tam giác cân hơn trong hình tròn */
+  font-size: 16px;
+}
+
+/* === Equalizer động (khi đang phát) === */
+.equalizer {
+  display: inline-flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2px;
+  width: 14px;
+  height: 14px;
+}
+
+.equalizer span {
+  width: 3px;
+  height: 6px;
+  background: white;
+  border-radius: 1px;
+  animation: sound 0.6s infinite ease-in-out;
+}
+
+.equalizer span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.equalizer span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes sound {
+  0%,
+  100% {
+    height: 6px;
+  }
+  50% {
+    height: 14px;
+  }
+}
+
+/* === Text phát sáng khi nhạc bật === */
+.playing-text {
+  color: #0077b6;
+  font-weight: 500;
+  animation: pulseText 1.6s ease-in-out infinite;
+}
+
+@keyframes pulseText {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+    text-shadow: 0 0 8px rgba(0, 119, 182, 0.4);
+  }
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+}
+
+/* =======================
+   🔹 EXPERIENCE
+======================= */
+.experience-section {
+  padding: 30px 0;
+  width: 90%;
+  margin: 0 auto;
+}
+.experience-section h2,
+.skills-section h2,
+.social-section h2,
+.contact-section h2 {
+  text-align: center;
+  font-family: "Sedgwick Ave", cursive;
+  color: #4a3b2f;
+  font-size: clamp(28px, 3vw, 44px);
+  margin-bottom: 24px;
+}
+.experience-card {
+  background: #efeceb;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  margin-bottom: 50px;
+}
+.experience-card table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+.experience-card .title {
+  font-weight: 550;
+}
+.experience-card th {
+  background: #e9e9e9;
+  text-align: left;
+  padding: 16px;
+  font-weight: 600;
+  font-size: 20px;
+}
+.experience-card th.date {
+  text-align: right;
+}
+.experience-card td {
+  padding: 16px;
+  border-top: 1px solid #eee;
+}
+
+/* =======================
+   🔹 SKILLS (5 logo mỗi dòng)
+======================= */
+.skills-section {
+  padding: 30px 0;
+  text-align: center;
+}
+
+.skills-section h2 {
+  font-family: "Sedgwick Ave", cursive;
+  color: #4a3b2f;
+  font-size: clamp(28px, 3vw, 44px);
+  margin-bottom: 66px;
+}
+
+/* Grid cố định 5 logo 1 hàng */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* ✅ 5 cột cố định */
+  gap: 56px;
+  justify-items: center;
+  align-items: start;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.skill-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.skill-item img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.skill-item span {
+  font-size: 15px;
+  font-weight: bold;
+  color: #4a3b2f;
+}
+
+/* Hiệu ứng hover */
+.skill-item:hover {
+  transform: translateY(-6px);
+}
+.skill-item:hover img {
+  transform: scale(1.1);
+}
+
+/* =======================
+   🔹 SOCIAL
+======================= */
+.social-section {
+  padding: 30px 0;
+  text-align: center;
+}
+
+.social-section h2 {
+  font-family: "Sedgwick Ave", cursive;
+  color: #4a3b2f;
+  font-size: clamp(28px, 3vw, 44px);
+  margin-bottom: 66px;
+}
+
+/* Grid cố định 5 logo 1 hàng */
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* ✅ 5 cột cố định */
+  gap: 56px;
+  justify-items: center;
+  align-items: start;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.social-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.social-item img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.social-item span {
+  font-size: 15px;
+  font-weight: bold;
+  color: #4a3b2f;
+}
+
+/* Hiệu ứng hover */
+.social-item:hover {
+  transform: translateY(-6px);
+}
+.social-item:hover img {
+  transform: scale(1.1);
+}
+
+.social-grid a {
+  text-decoration: none;
+  color: #4a3b2f;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.social-note {
+  margin-top: 69px;
+  font-size: 28px;
+  color: #5c5148;
+  font-weight: 510;
+}
+
+.social-note1 {
+  margin-top: 9px;
+  font-size: 28px;
+  color: #5c5148;
+  font-weight: 510;
+}
+
+/* =======================
+   🔹 CONTACT
+======================= */
+.contact-section {
+  padding: 60px 0;
+  width: 90%;
+  margin: 0 auto;
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+.map {
+  width: 100%;
+  max-width: 360px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+.left p {
+  padding-bottom: 10px;
+}
+.right {
+  display: flex;
+  flex-direction: column;
+}
+.right input,
+.right textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #cfcfcf;
+  background: #fff;
+  font: inherit;
+  outline: none;
+}
+.right input {
+  margin-bottom: 16px;
+}
+.right textarea {
+  margin: 10px 0 16px;
+  resize: vertical;
+  height: 342px;
+}
+.btn-submit {
+  display: inline-block;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(90deg, #6cb5ff, #2aa7f5);
+  box-shadow: 0 4px 10px rgba(42, 167, 245, 0.35);
+}
+
+/* =======================
+   🔹 FOOTER
+======================= */
+.footer {
+  padding: 16px 0;
+  background: #e0dfde;
+  margin: auto;
+  width: 95%;
+  max-width: 1340px;
+}
+.footer .container {
+  width: 95%;
+  margin: 0 auto;
+  text-align: center;
+  color: #5b5b5b;
+  font-weight: bold;
+}
+
+.hamburger {
+  display: none;
+}
+
+/* =======================
+   🔹 RESPONSIVE FIX FINAL V2
+======================= */
+
+@media (max-width: 768px) {
+  /* ===== NAVBAR ===== */
+  .navbar {
+    position: relative;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 16px;
+  }
+
+  .main {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .footer {
+    width: 100%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+  }
+
+  .nav-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  .hamburger {
+    display: block;
+    border: none;
+    background: transparent;
+    font-size: 26px;
+    color: #333;
+    cursor: pointer;
+    z-index: 2000;
+    margin-left: auto; /* đẩy sang phải */
+    margin-right: 60px; /* để chừa chỗ cho icon cờ */
+  }
+
+  /* ===== LANGUAGE BUTTON (icon cờ) ===== */
+  .lang-select {
+    position: fixed;
+    top: 10px;
+    right: 12px;
+    z-index: 2100;
+    background: rgba(255, 255, 255, 0.95);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .lang-btn {
+    padding: 0;
+  }
+
+  .lang-text,
+  .arrow {
+    display: none;
+  }
+
+  .nav-flag {
+    width: 26px;
+    height: 18px;
+  }
+
+  /* ===== MENU POPUP cạnh icon cờ ===== */
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 58px;
+    right: 66px; /* ✅ nằm cạnh icon cờ */
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 10px 14px;
+    width: 150px;
+    animation: fadeSlideIn 0.25s ease;
+    z-index: 2000;
+  }
+
+  .nav-menu.open {
+    display: flex;
+  }
+
+  .nav-menu li {
+    text-align: left;
+    margin: 6px 0;
+  }
+
+  .nav-menu a {
+    color: #333;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 600;
+    display: block;
+    padding: 6px 0;
+  }
+
+  .nav-menu a:hover {
+    color: #0077b6;
+  }
+
+  @keyframes fadeSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ===== SKILLS & SOCIAL ===== */
+  .skills-grid,
+  .social-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+
+  .skill-item img,
+  .social-item img {
+    width: 70px;
+    height: 70px;
+  }
+
+  /* ===== CONTACT FIX TRIỆT ĐỂ ===== */
+  .contact-section {
+    width: 100%;
+    max-width: 100%;
+    padding: 40px 0 80px;
+    overflow-x: hidden;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .map {
+    width: 100%;
+    max-width: 100%;
+    height: 260px;
+    border-radius: 8px;
+    overflow: hidden;
+    display: block;
+  }
+
+  iframe,
+  .map iframe {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 260px !important;
+    border: none;
+    display: block;
+  }
+
+  .right {
+    width: 100%;
+  }
+
+  .right input,
+  .right textarea {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .btn-submit {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    font-size: 13px;
+    padding: 12px 0;
+    text-align: center;
+  }
+}
+
+/* 📱 Mobile nhỏ (<= 480px) */
+@media (max-width: 480px) {
+  .nav-menu {
+    right: 58px; /* dịch gần icon cờ hơn chút */
+  }
+
+  .map {
+    height: 220px;
+  }
+
+  iframe,
+  .map iframe {
+    height: 220px !important;
+  }
+
+  .skill-item img,
+  .social-item img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .contact-section {
+    padding: 40px 0 70px;
+  }
+}
