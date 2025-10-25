@@ -128,13 +128,13 @@ export class InfoCcComponent {
         '.NET Core, Worker Services, MassTransit, RabbitMQ, SQL Server, SignalR, WebSocket, OneSignal',
     },
     {
-      company: 'DBV Group',
+      company: 'Synodus Company',
       date: '09/2025 - Present',
-      client: 'DBV Group',
+      client: 'DBV Insurance',
       description:
         'Development of an insurance contract and claims management platform',
       role: 'Fullstack Developer',
-      teamSize: '50',
+      teamSize: '35',
       function:
         'Developed both frontend and backend modules for insurance contract and claims management|Built internal tools to support system data processing and maintenance|Implemented stored procedures and validation logic for contract entry and claims workflows across multiple insurance products.',
       language: '.NET Core, Dapper, Angular, Kafka, MongoDB, Oracle',
