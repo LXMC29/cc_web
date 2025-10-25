@@ -14,7 +14,7 @@
 ## ⚙️ Setup
 ```bash
 # clone repo
-git clone https://github.com/username/personal-info.git
+git clone https://github.com/LXMC29/cc_web.git
 
 # install dependencies
 npm install
