@@ -49,7 +49,8 @@ export class InfoCcComponent {
     { name: 'Oracle', src: 'assets/images/SQL/oracle.png' },
     { name: 'MongoDB', src: 'assets/images/SQL/mongo.png' },
     { name: 'Redis', src: 'assets/images/SQL/redis.png' },
-    { name: 'Google Cloud', src: 'assets/images/SQL/gcp.png' },
+    // { name: 'Google Cloud', src: 'assets/images/SQL/gcp.png' },
+    { name: 'Docker', src: 'assets/images/SQL/docker.webp' },
   ];
 
   socials = [
@@ -134,7 +135,7 @@ export class InfoCcComponent {
       description:
         'Development of an insurance contract and claims management platform',
       role: 'Fullstack Developer',
-      teamSize: '35',
+      teamSize: '8',
       function:
         'Developed both frontend and backend modules for insurance contract and claims management|Built internal tools to support system data processing and maintenance|Implemented stored procedures and validation logic for contract entry and claims workflows across multiple insurance products.',
       language: '.NET Core, Dapper, Angular, Kafka, MongoDB, Oracle',
