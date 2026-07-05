@@ -1,0 +1,366 @@
+<main class="wedding-two">
+  <div class="sparkles" aria-hidden="true">
+    <span
+      *ngFor="
+        let star of [
+          1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+        ]
+      "
+    ></span>
+  </div>
+
+  <button
+    class="audio-toggle"
+    type="button"
+    (click)="toggleMusic()"
+    [attr.aria-label]="isMusicPlaying ? 'Tắt nhạc' : 'Mở nhạc'"
+  >
+    <span></span>
+  </button>
+
+  <nav class="quick-actions" aria-label="Wedding quick actions">
+    <a href="#wishes">💬</a>
+    <a href="#rsvp">☑</a>
+    <a href="#gift">🎁</a>
+    <a href="#map">×</a>
+  </nav>
+
+  <section class="hero" [style.--hero-image]="'url(' + heroImage + ')'">
+    <div
+      class="hero-bg"
+      [style.background-image]="'url(' + heroImage + ')'"
+    ></div>
+    <div
+      class="hero-arch"
+      [style.background-image]="'url(' + heroImage + ')'"
+      #reveal
+    >
+      <p class="invite-label">TRÂN TRỌNG KÍNH MỜI</p>
+      <div class="guest-pill">{{ guestName }}</div>
+      <h1>Phan Trung <span>&</span> Thanh Hoài</h1>
+    </div>
+  </section>
+
+  <section class="save-date panel-overlap" #reveal>
+    <div class="date-card date-card-left">
+      <p>Save<br />The<br />Date</p>
+    </div>
+    <figure class="couple-frame">
+      <img [src]="portraitImage" alt="Phan Trung và Thanh Hoài" />
+    </figure>
+    <div class="date-card date-card-right">
+      <p>19<br /><span>|</span><br />07<br /><span>|</span><br />2026</p>
+    </div>
+  </section>
+
+  <section class="calendar-section" #reveal>
+    <div class="fan" aria-hidden="true"></div>
+    <div class="calendar">
+      <div
+        class="weekday"
+        *ngFor="let day of ['MON', 'TUE', 'WED', 'THUR', 'FRI', 'SAT', 'SUN']"
+      >
+        {{ day }}
+      </div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <div
+        class="day"
+        *ngFor="let day of calendarDays"
+        [class.active]="day === 19"
+      >
+        {{ day }}
+      </div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+    </div>
+    <button class="outline-button">Thêm vào lịch</button>
+  </section>
+
+  <section class="countdown" #reveal>
+    <div
+      class="countdown-bg"
+      [style.background-image]="'url(' + countdownImage + ')'"
+    ></div>
+    <h2>Countdown</h2>
+    <div class="count-grid">
+      <div>
+        <strong>{{ countdown.days }}</strong
+        ><span>Ngày</span>
+      </div>
+      <div>
+        <strong>{{ countdown.hours }}</strong
+        ><span>Giờ</span>
+      </div>
+      <div>
+        <strong>{{ countdown.minutes }}</strong
+        ><span>Phút</span>
+      </div>
+      <div>
+        <strong>{{ countdown.seconds }}</strong
+        ><span>Giây</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="people" #reveal>
+    <article class="person-card">
+      <img [src]="codauImage" alt="Cô dâu Thanh Hoài" />
+      <span>CÔ DÂU</span>
+      <h3>Thanh Hoài</h3>
+    </article>
+    <div class="vinyl" [class.is-playing]="isMusicPlaying">
+      <img [src]="portraitImage" alt="Ảnh cưới" />
+      <button
+        type="button"
+        (click)="toggleMusic()"
+        [attr.aria-label]="isMusicPlaying ? 'Tắt nhạc' : 'Mở nhạc'"
+      >
+        {{ isMusicPlaying ? "Ⅱ" : "▶" }}
+      </button>
+    </div>
+    <article class="person-card">
+      <img [src]="chureImage" alt="Chú rể Phan Trung" />
+      <span>CHÚ RỂ</span>
+      <h3>Phan Trung</h3>
+    </article>
+  </section>
+
+  <section class="invitation-card" #reveal>
+    <div class="invite-copy">
+      <div class="parents">
+        <p><strong>NHÀ TRAI</strong><br /><br />Bà: Ngô Thị Sâm<br /></p>
+        <p>
+          <strong>NHÀ GÁI</strong><br /><br />Ông: Nguyễn Hữu Chương<br />Bà:
+          Nguyễn Thị Cương
+        </p>
+      </div>
+      <h2>TRÂN TRỌNG KÍNH MỜI</h2>
+      <div class="guest-pill-main">{{ guestName }}</div>
+      <p class="small">CÙNG GIA ĐÌNH CHUNG VUI</p>
+      <p class="time">VÀO LÚC<br /><strong>11 Giờ </strong><br />CHỦ NHẬT</p>
+      <p class="date">19 | 07 | 2026</p>
+      <p class="small">(Tức ngày 06 tháng 06 năm Bính Ngọ)</p>
+      <p class="address">
+        <strong>TẠI TƯ GIA NHÀ TRAI</strong><br />Xóm 6<br />Xã Đại Đồng - tỉnh
+        Nghệ An
+      </p>
+      <button class="mini-button">Xem vị trí</button>
+    </div>
+    <figure>
+      <img [src]="mainImage" alt="Ảnh áo dài cưới đỏ" />
+    </figure>
+    <h3>Phan Trung & Thanh Hoài</h3>
+    <p class="closing">Rất hân hạnh được đón tiếp!</p>
+  </section>
+
+  <br />
+  <br />
+  <br />
+
+  <section class="timeline-card" #reveal>
+    <p class="eyebrow">Timeline</p>
+    <h2>TỔ CHỨC LỄ CƯỚI</h2>
+    <div class="timeline-content">
+      <div class="gift-box" aria-hidden="true"></div>
+      <div class="timeline-list">
+        <article *ngFor="let item of timeline">
+          <strong>{{ item.time }}</strong>
+          <span>{{ item.title }}</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <br />
+  <br />
+  <br />
+
+  <section class="love-story" #reveal>
+    <div
+      class="story-hero"
+      [style.background-image]="'url(' + softStudio + ')'"
+    >
+      <h2>CÂU CHUYỆN TÌNH YÊU</h2>
+      <p>ĐIỀU ĐÁNG NHỚ CỦA ANH VÀ EM</p>
+    </div>
+    <div class="story-sheet">
+      <article *ngFor="let story of stories" [class.wide]="story.wide">
+        <img [src]="story.image" [alt]="story.title" />
+        <div>
+          <h3>{{ story.title }}</h3>
+          <p>{{ story.text }}</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- <section class="signature" #reveal>
+    <div class="section-title">
+      <span>Signature</span>
+      <h2>Lưu Bút</h2>
+      <p>
+        Để lại chữ ký của Bạn và cùng chúng mình lưu giữ kỷ niệm hạnh phúc này
+        nhé!!
+      </p>
+    </div>
+    <div class="signature-board">
+      <span *ngIf="previewSignature" class="signature-name">Bạn Chiến</span>
+      <img [src]="portraitImage" alt="Ảnh lưu bút" />
+      <h3>Phan Trung<br />&<br />Thanh Hoài</h3>
+    </div>
+    <button class="primary-button" (click)="showSignature()">
+      NHẤN ĐỂ KÝ TÊN
+    </button>
+    <div class="sign-pad">
+      <span>Khu vực ký tên</span>
+    </div>
+    <div class="sign-actions">
+      <button class="muted" (click)="clearSignature()">Xóa</button>
+      <button class="success" (click)="showSignature()">Xem thử</button>
+      <button class="accent" (click)="showSignature()">Lưu Chữ Ký</button>
+    </div>
+  </section> -->
+
+  <section class="wishes" id="wishes" #reveal>
+    <div class="section-title framed">
+      <h2>LỜI CHÚC TỪ KHÁCH MỜI</h2>
+    </div>
+    <div class="wish-board">
+      <article *ngFor="let wish of wishes">
+        <h3>{{ wish.name }}</h3>
+        <p>{{ wish.message }}</p>
+      </article>
+    </div>
+    <form class="wish-form">
+      <input [(ngModel)]="wishName" name="wishName" />
+      <select>
+        <option>Ai sẽ thấy lời chúc của bạn?</option>
+      </select>
+      <textarea
+        [(ngModel)]="wishText"
+        name="wishText"
+        placeholder="Gửi lời chúc đến cô dâu chú rể..."
+      ></textarea>
+      <button type="button" (click)="saveWish()">GỬI LỜI CHÚC</button>
+    </form>
+  </section>
+
+  <section class="gallery" #reveal>
+    <div class="section-title framed">
+      <h2>KHOẢNH KHẮC ĐẸP NHẤT</h2>
+    </div>
+    <div class="masonry">
+      <img
+        *ngFor="let image of gallery; let index = index"
+        [src]="image"
+        [class.large]="index === 0"
+        alt="Khoảnh khắc cưới"
+      />
+    </div>
+  </section>
+
+  <!-- <section class="rsvp" id="rsvp" #reveal>
+    <div class="section-title framed">
+      <h2>XÁC NHẬN</h2>
+      <p>Chúng mình rất chờ đón sự kiện trọng đại này của cuộc đời.</p>
+    </div>
+    <div class="rsvp-grid">
+      <form>
+        <input [(ngModel)]="guestName" name="guestName" />
+        <select [(ngModel)]="attendance" name="attendance">
+          <option>Xác nhận tham dự</option>
+          <option>Rất tiếc không tham dự</option>
+        </select>
+        <div class="inline-form">
+          <label
+            ><input type="checkbox" [checked]="side === 'Nhà Trai'" /> Nhà
+            Trai</label
+          >
+          <label
+            ><input type="checkbox" [checked]="side === 'Nhà Gái'" /> Nhà
+            Gái</label
+          >
+          <input
+            type="number"
+            [(ngModel)]="guestCount"
+            name="guestCount"
+            min="1"
+          />
+        </div>
+        <textarea
+          [(ngModel)]="note"
+          name="note"
+          placeholder="Để lại lời nhắn!!"
+        ></textarea>
+        <button type="button" class="ghost-button">XÁC NHẬN THAM DỰ</button>
+      </form>
+      <img [src]="redImage" alt="Ảnh xác nhận tham dự" />
+    </div>
+  </section> -->
+
+  <section class="gift" id="gift" #reveal>
+    <h2><span>Share</span> THE <span>Love</span></h2>
+    <p>
+      Thành ý chúc phúc và quà mừng của Quý khách xin được trân trọng ghi nhận
+      qua số tài khoản/QR dưới đây.
+    </p>
+    <img class="gift-photo" [src]="qrbg" alt="Share the love" />
+    <div class="qr-card">
+      <article>
+        <h3>CHÚ RỂ</h3>
+        <img class="bank-qr" [src]="qrcrImage" alt="QR chú rể" />
+        <p>CTK: PHAN VAN TRUNG<br />STK: 19034477125010<br />Ngân hàng: Tech</p>
+      </article>
+      <article>
+        <h3>CÔ DÂU</h3>
+        <img class="bank-qr" [src]="qrcdImage" alt="QR cô dâu" />
+        <p>CTK: NGUYEN THI HOAI<br />STK: 344440124<br />Ngân hàng: VIB</p>
+      </article>
+    </div>
+    <div class="hearts">♥ ♡ ♥ ♡</div>
+  </section>
+
+  <section class="map" id="map" #reveal>
+    <h2>VỊ TRÍ</h2>
+    <div class="map-card">
+      <article>
+        <strong>ĐỊA CHỈ NHÀ TRAI</strong>
+        <img [src]="diachichureImage" alt="Địa chỉ nhà trai" />
+      </article>
+      <article>
+        <strong>ĐỊA CHỈ NHÀ GÁI</strong>
+        <img [src]="diachicodauImage" alt="Địa chỉ nhà gái" />
+      </article>
+    </div>
+    <figure class="thank-frame">
+      <img [src]="redImage" alt="Cảm ơn" />
+      <figcaption>Thank<br />you!</figcaption>
+    </figure>
+    <p>
+      Sự hiện diện của Quý Khách<br />Là niềm vinh hạnh cho gia đình chúng
+      tôi.<br />Chân thành cảm ơn!
+    </p>
+  </section>
+
+  <iframe
+    *ngIf="musicUrl"
+    class="music-frame"
+    width="560"
+    height="315"
+    [src]="musicUrl"
+    title="YouTube video player"
+    frameborder="0"
+    allow="
+      accelerometer;
+      autoplay;
+      clipboard-write;
+      encrypted-media;
+      gyroscope;
+      picture-in-picture;
+      web-share;
+    "
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen
+  ></iframe>
+</main>

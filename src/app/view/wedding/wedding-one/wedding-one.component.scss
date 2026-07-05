@@ -1,0 +1,256 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+//https://iili.io/KOejgFR.jpg
+
+.all {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  touch-action: manipulation;
+}
+
+.section1 {
+  display: block !important;
+  height: 716px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.section-background {
+  background-image: url("https://iili.io/KOejgFR.jpg");
+  width: 100%;
+  height: 100%;
+  background-position-x: 50%;
+  background-position-y: 100%;
+  filter: contrast(70%) brightness(70%);
+  background-size: cover;
+  background-repeat: repeat;
+  background-attachment: fixed;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.container-background {
+  width: 960px;
+  position: relative;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.image1 {
+  width: 960px;
+  height: 691px;
+  top: 25px;
+  position: absolute;
+}
+
+.main-image {
+  border-top-left-radius: 1000px;
+  border-top-right-radius: 1000px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.main-image-background {
+  background-image: url("https://iili.io/KOejgFR.jpg");
+  width: 1063.01px;
+  height: 708.5px;
+  top: -12px;
+  left: -15px;
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: cover;
+  background-attachment: scroll;
+  background-origin: content-box;
+  position: absolute;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.main-overlay {
+  position: absolute;
+  background-color: rgba(84, 84, 84, 0.5);
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+}
+
+.healine-groom {
+  width: 397px;
+  top: 399px;
+  left: 0.66px;
+  position: absolute;
+}
+
+.groom-name {
+  font-size: 67px;
+  text-align: right;
+  font-family: "font1";
+  line-height: 1.6;
+  color: rgb(255, 255, 255);
+  width: 100%;
+  display: inline-block;
+  word-break: break-word;
+  background-size: cover;
+  background-position: center center;
+}
+
+.healine-and {
+  width: 106px;
+  top: 399px;
+  left: 413px;
+  position: absolute;
+}
+
+.and {
+  font-size: 67px;
+  font-family: "font1";
+  line-height: 1.6;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  width: 100%;
+  display: inline-block;
+  word-break: break-word;
+  background-size: cover;
+  background-position: center center;
+}
+
+.healine-bride {
+  width: 425px;
+  top: 399px;
+  left: 534.341px;
+  position: absolute;
+}
+
+.bride-name {
+  font-size: 67px;
+  text-align: left;
+  font-family: "font1";
+  line-height: 1.6;
+  color: rgb(255, 255, 255);
+  width: 100%;
+  display: inline-block;
+  word-break: break-word;
+  background-size: cover;
+  background-position: center center;
+}
+
+.healine-title {
+  top: 110.5px;
+  left: 291px;
+  width: 347px;
+  position: absolute;
+}
+
+.invitation-text {
+  font-family: "font1";
+  font-size: 25px;
+  line-height: 1.6;
+  color: rgb(255, 255, 255);
+  text-transform: uppercase;
+  text-align: center;
+  width: 100%;
+  display: inline-block;
+  word-break: break-word;
+  background-size: cover;
+  background-position: center center;
+  transition: all 150ms linear 0s;
+}
+
+.healine-invitation {
+  top: 150.5px;
+  left: 294px;
+  width: 347px;
+  position: absolute;
+}
+
+.invitation-name {
+  text-shadow: rgb(0, 0, 0) 1px 2px 3px;
+  font-family: Sriracha, cursive;
+  font-size: 23px;
+  line-height: 1.6;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  width: 100%;
+  display: inline-block;
+  word-break: break-word;
+  background-size: cover;
+  background-position: center center;
+  transition: all 150ms linear 0s;
+}
+
+.section2 {
+  height: 464.868px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.original-section-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.original-container {
+  width: 960px;
+  position: relative;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.original-element {
+  position: absolute;
+}
+
+.original-group {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.original-image {
+  border-width: 11px;
+  border-radius: 1000px;
+  border-style: double;
+  border-color: rgb(116, 142, 138);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.original-image-background {
+  width: 344.517px;
+  height: 516.905px;
+  top: -11px;
+  left: -46.3275px;
+  background-image: url(https://iili.io/KOejjyP.jpg);
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: cover;
+  background-attachment: scroll;
+  background-origin: content-box;
+  position: absolute;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
