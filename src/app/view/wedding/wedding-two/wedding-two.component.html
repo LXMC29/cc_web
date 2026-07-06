@@ -11,11 +11,12 @@
 
   <button
     class="audio-toggle"
+    [class.is-playing]="isMusicPlaying"
     type="button"
     (click)="toggleMusic()"
     [attr.aria-label]="isMusicPlaying ? 'Tắt nhạc' : 'Mở nhạc'"
   >
-    <span></span>
+    <span class="speaker-icon"></span>
   </button>
 
   <nav class="quick-actions" aria-label="Wedding quick actions">
@@ -251,14 +252,36 @@
       <h2>KHOẢNH KHẮC ĐẸP NHẤT</h2>
     </div>
     <div class="masonry">
-      <img
+      <button
         *ngFor="let image of gallery; let index = index"
-        [src]="image"
         [class.large]="index === 0"
-        alt="Khoảnh khắc cưới"
-      />
+        type="button"
+        (click)="openGalleryImage(image)"
+      >
+        <img [src]="image" alt="Khoảnh khắc cưới" />
+      </button>
     </div>
   </section>
+
+  <div
+    class="gallery-lightbox"
+    *ngIf="selectedGalleryImage"
+    (click)="closeGalleryImage()"
+  >
+    <button
+      class="lightbox-close"
+      type="button"
+      aria-label="Đóng ảnh"
+      (click)="closeGalleryImage(); $event.stopPropagation()"
+    >
+      ×
+    </button>
+    <img
+      [src]="selectedGalleryImage"
+      alt="Khoảnh khắc cưới phóng to"
+      (click)="$event.stopPropagation()"
+    />
+  </div>
 
   <!-- <section class="rsvp" id="rsvp" #reveal>
     <div class="section-title framed">

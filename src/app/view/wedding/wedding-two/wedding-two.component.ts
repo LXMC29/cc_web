@@ -35,7 +35,7 @@ export class WeddingTwoComponent implements AfterViewInit, OnDestroy {
   private countdownTimer?: ReturnType<typeof setInterval>;
   private readonly weddingDate = new Date(2026, 6, 19, 10, 30, 0);
   private readonly musicEmbed =
-    'https://www.youtube.com/embed/LG5hQJsO8k0?si=LwqmN0Ylnt9YrMSG&autoplay=1';
+    'https://www.youtube.com/embed/LG5hQJsO8k0?si=LwqmN0Ylnt9YrMSG&autoplay=1&playsinline=1';
 
   constructor(private readonly sanitizer: DomSanitizer) {
     this.musicUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
@@ -171,13 +171,13 @@ export class WeddingTwoComponent implements AfterViewInit, OnDestroy {
     },
     {
       title: 'Tình yêu lớn dần',
-      text: 'Tình yêu ấy theo chúng tôi bước vào giảng đường đại học, nơi cả hai vừa là người yêu, vừa là bạn đồng hành trong những ngày rực rỡ của thanh xuân.',
+      text: 'Trải qua biết bao nhiêu niềm vui nỗi buồn, lúc hạnh phúc, có lúc giận hờn, cũng có những lúc có ý định buông tay. Nhưng chúng tôi vẫn ở đây bên nhau, yêu thương và thấu hiểu cho nhau. Vừa là người yêu, vừa là bạn người đồng hành, và từ nay về sau chúng tôi là vợ chồng, là gia đình.',
       image: this.storie3,
       wide: true,
     },
     {
       title: 'Mãi bên nhau nhé',
-      text: 'Và hôm nay, sau trọn những năm bên nhau, chúng tôi nắm tay nhau bước vào lễ cưới. Khép lại một chuyện tình học trò và mở ra chương mới mang tên hạnh phúc.',
+      text: 'Và hôm nay, sau trọn những năm bên nhau, chúng tôi nắm tay nhau bước vào lễ cưới. Chúng tôi nguyện mãi mãi bên nhau, cùng nhau mở ra một chương mới mang tên hạnh phúc.',
       image: this.storie4,
       wide: true,
     },
@@ -205,6 +205,7 @@ export class WeddingTwoComponent implements AfterViewInit, OnDestroy {
   wishName = 'Em Chiến Cò';
   wishText = '';
   previewSignature = false;
+  selectedGalleryImage?: string;
   isMusicPlaying = true;
   musicUrl?: SafeResourceUrl;
   countdown = {
@@ -275,6 +276,14 @@ export class WeddingTwoComponent implements AfterViewInit, OnDestroy {
 
   clearSignature(): void {
     this.previewSignature = false;
+  }
+
+  openGalleryImage(image: string): void {
+    this.selectedGalleryImage = image;
+  }
+
+  closeGalleryImage(): void {
+    this.selectedGalleryImage = undefined;
   }
 
   toggleMusic(): void {
