@@ -1188,14 +1188,62 @@ textarea {
 }
 
 .wish-form {
+  background: #f5f6f6;
+  display: grid;
+  gap: 12px;
   margin: 0 auto;
   max-width: 560px;
+  padding: 34px;
+}
+
+.wish-form input,
+.wish-form select,
+.wish-form textarea,
+.wish-form button {
+  border: 0;
+  border-radius: 6px;
+  box-sizing: border-box;
+  display: block;
+  font-size: 16px;
+  line-height: 1.35;
+  margin: 0;
+  width: 100%;
+}
+
+.wish-form input,
+.wish-form select,
+.wish-form textarea {
+  background: var(--sage);
+  color: #fff;
+  min-height: 44px;
+  outline: 2px solid transparent;
+  padding: 12px 14px;
+}
+
+.wish-form input:focus,
+.wish-form select:focus,
+.wish-form textarea:focus {
+  outline-color: rgba(203, 168, 90, 0.85);
+}
+
+.wish-form textarea {
+  min-height: 116px;
+  resize: vertical;
+}
+
+.wish-form input::placeholder,
+.wish-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.86);
 }
 
 .wish-form button {
   background: #fff;
+  border: 0;
   box-shadow: 0 12px 18px rgba(0, 0, 0, 0.22);
   color: var(--sage);
+  font-weight: 800;
+  min-height: 46px;
+  padding: 12px 18px;
 }
 
 .gift h2 {
@@ -1461,18 +1509,51 @@ textarea {
   right: 12px;
 }
 
-.quick-actions a {
+.quick-actions a,
+.quick-actions button {
   align-items: center;
   background: var(--sage);
   border: 2px solid #fff;
   border-radius: 50%;
   color: #fff;
+  cursor: pointer;
   display: flex;
   font-size: 20px;
   height: 42px;
   justify-content: center;
   text-decoration: none;
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease,
+    visibility 220ms ease;
   width: 42px;
+}
+
+.quick-actions svg {
+  height: 23px;
+  width: 23px;
+}
+
+.quick-actions path,
+.quick-actions rect,
+.quick-actions circle {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.quick-actions button svg path {
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+.quick-actions.is-collapsed a {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px) scale(0.82);
+  visibility: hidden;
 }
 
 #reveal,

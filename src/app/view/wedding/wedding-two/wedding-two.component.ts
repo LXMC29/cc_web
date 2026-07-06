@@ -39,6 +39,7 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
   private revealChanges?: Subscription;
   private routeChanges?: Subscription;
   private readonly weddingDate = new Date(2026, 6, 19, 10, 30, 0);
+  private readonly wishesStorageKey = 'wedding-two-wishes';
   private readonly musicEmbed =
     'https://www.youtube.com/embed/LG5hQJsO8k0?si=LwqmN0Ylnt9YrMSG&autoplay=1&playsinline=1';
   private readonly guestSheetUrl =
@@ -195,17 +196,13 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   readonly gallery = [...this.driveImageAbs];
 
-  readonly wishes: Wish[] = [
+  readonly defaultWishes: Wish[] = [
     {
       name: 'Em Chiến siêu đẹp trai',
       message: 'Chúc anh chị trăm năm hạnh phúc, sớm có cháu để em bồng.',
     },
-    {
-      name: 'Em Sáng lỏ',
-      message:
-        'Chúc hai anh chị một hành trình chung tràn đầy yêu thương, thấu hiểu và sẻ chia.',
-    },
   ];
+  wishes: Wish[] = [...this.defaultWishes];
 
   guestName = 'Ông bà, cô dì, chú bác, bạn bè';
   attendance = 'Xác nhận tham dự';
@@ -216,6 +213,7 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
   wishText = '';
   previewSignature = false;
   selectedGalleryImage?: string;
+  isQuickActionsOpen = true;
   isMusicPlaying = true;
   musicUrl?: SafeResourceUrl;
   countdown = {
@@ -226,6 +224,7 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
   };
 
   ngOnInit(): void {
+    this.loadStoredWishes();
     this.routeChanges = this.route.queryParamMap.subscribe(() => {
       void this.loadGuestFromSheet();
     });
@@ -422,11 +421,40 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedGalleryImage = undefined;
   }
 
+  toggleQuickActions(): void {
+    this.isQuickActionsOpen = !this.isQuickActionsOpen;
+  }
+
   toggleMusic(): void {
     this.isMusicPlaying = !this.isMusicPlaying;
     this.musicUrl = this.isMusicPlaying
       ? this.sanitizer.bypassSecurityTrustResourceUrl(this.musicEmbed)
       : undefined;
+  }
+
+  private loadStoredWishes(): void {
+    try {
+      const storedValue = localStorage.getItem(this.wishesStorageKey);
+      const storedWishes = storedValue
+        ? (JSON.parse(storedValue) as Wish[])
+        : [];
+      const validStoredWishes = Array.isArray(storedWishes)
+        ? storedWishes.filter(
+            (wish) =>
+              typeof wish?.name === 'string' &&
+              typeof wish?.message === 'string' &&
+              wish.message.trim(),
+          )
+        : [];
+
+      this.wishes = [...validStoredWishes, ...this.defaultWishes];
+    } catch {
+      this.wishes = [...this.defaultWishes];
+    }
+  }
+
+  private saveStoredWishes(wishes: Wish[]): void {
+    localStorage.setItem(this.wishesStorageKey, JSON.stringify(wishes));
   }
 
   saveWish(): void {
@@ -437,7 +465,19 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    this.wishes.unshift({ name, message });
+    const newWish = { name, message };
+    const storedWishes = this.wishes.filter(
+      (wish) =>
+        !this.defaultWishes.some(
+          (defaultWish) =>
+            defaultWish.name === wish.name &&
+            defaultWish.message === wish.message,
+        ),
+    );
+    const nextStoredWishes = [newWish, ...storedWishes];
+
+    this.saveStoredWishes(nextStoredWishes);
+    this.wishes = [...nextStoredWishes, ...this.defaultWishes];
     this.wishText = '';
   }
 }

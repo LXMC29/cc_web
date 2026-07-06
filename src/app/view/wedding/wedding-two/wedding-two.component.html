@@ -29,11 +29,44 @@
     </span>
   </button>
 
-  <nav class="quick-actions" aria-label="Wedding quick actions">
-    <a href="#wishes">💬</a>
-    <a href="#rsvp">☑</a>
-    <a href="#gift">🎁</a>
-    <a href="#map">×</a>
+  <nav
+    class="quick-actions"
+    [class.is-collapsed]="!isQuickActionsOpen"
+    aria-label="Wedding quick actions"
+  >
+    <a href="#wishes" aria-label="Đến lời chúc từ khách mời">
+      <svg viewBox="0 0 24 24">
+        <path
+          d="M5 5.8A4 4 0 0 1 9 2h6a4 4 0 0 1 4 4v4.4a4 4 0 0 1-4 4h-3.6L6.8 18v-3.7A4 4 0 0 1 3 10.4V6.1"
+        ></path>
+        <path d="M8 7h8M8 10.5h5"></path>
+      </svg>
+    </a>
+    <a href="#gallery" aria-label="Đến khoảnh khắc đẹp nhất">
+      <svg viewBox="0 0 24 24">
+        <rect x="4" y="5" width="16" height="14" rx="2"></rect>
+        <circle cx="9" cy="10" r="1.7"></circle>
+        <path d="m5.5 17 4.2-4.2 3.2 3.1 2.1-2.1 3.5 3.2"></path>
+      </svg>
+    </a>
+    <a href="#gift" aria-label="Đến Share THE Love">
+      <svg viewBox="0 0 24 24">
+        <path d="M4 10h16v10H4zM3 7h18v3H3zM12 7v13"></path>
+        <path d="M12 7C10.4 4.1 7 3.5 6.4 5.6 5.8 7.9 9.2 8 12 7z"></path>
+        <path d="M12 7c1.6-2.9 5-3.5 5.6-1.4C18.2 7.9 14.8 8 12 7z"></path>
+      </svg>
+    </a>
+    <button
+      type="button"
+      (click)="toggleQuickActions()"
+      [attr.aria-label]="isQuickActionsOpen ? 'Thu gọn menu' : 'Mở menu'"
+    >
+      <svg viewBox="0 0 24 24">
+        <path
+          d="M12 20s-7-4.2-9.2-8.2C1.2 8.7 3.1 5 6.6 5c2 0 3.4 1.1 4.2 2.4C11.6 6.1 13 5 15 5c3.5 0 5.4 3.7 3.8 6.8C19 15.8 12 20 12 20z"
+        ></path>
+      </svg>
+    </button>
   </nav>
 
   <section class="hero" [style.--hero-image]="'url(' + heroImage + ')'">
@@ -257,7 +290,7 @@
     </form>
   </section>
 
-  <section class="gallery" #reveal>
+  <section class="gallery" id="gallery" #reveal>
     <div class="section-title framed">
       <h2>KHOẢNH KHẮC ĐẸP NHẤT</h2>
     </div>
