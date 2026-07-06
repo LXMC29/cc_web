@@ -3,12 +3,15 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnInit,
   OnDestroy,
   QueryList,
   ViewChildren,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 interface StoryItem {
   title: string;
@@ -28,16 +31,23 @@ interface Wish {
   templateUrl: './wedding-two.component.html',
   styleUrl: './wedding-two.component.scss',
 })
-export class WeddingTwoComponent implements AfterViewInit, OnDestroy {
+export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren('reveal') revealBlocks!: QueryList<ElementRef<HTMLElement>>;
 
   private observer?: IntersectionObserver;
   private countdownTimer?: ReturnType<typeof setInterval>;
+  private revealChanges?: Subscription;
+  private routeChanges?: Subscription;
   private readonly weddingDate = new Date(2026, 6, 19, 10, 30, 0);
   private readonly musicEmbed =
     'https://www.youtube.com/embed/LG5hQJsO8k0?si=LwqmN0Ylnt9YrMSG&autoplay=1&playsinline=1';
+  private readonly guestSheetUrl =
+    'https://docs.google.com/spreadsheets/d/e/2PACX-1vQehivFrQTpVbBBSflmnuk0W-uTfokNEhVn9tNJadn5XbHYH9XZYzAuEnVHwYx3e_rQbKiZLoJ8TvX3/pub?output=csv';
 
-  constructor(private readonly sanitizer: DomSanitizer) {
+  constructor(
+    private readonly sanitizer: DomSanitizer,
+    private readonly route: ActivatedRoute,
+  ) {
     this.musicUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       this.musicEmbed,
     );
@@ -197,12 +207,12 @@ export class WeddingTwoComponent implements AfterViewInit, OnDestroy {
     },
   ];
 
-  guestName = 'Em Chiến Cò';
+  guestName = 'Ông bà, cô dì, chú bác, bạn bè';
   attendance = 'Xác nhận tham dự';
   side = 'Nhà Trai';
   guestCount = 1;
   note = '';
-  wishName = 'Em Chiến Cò';
+  wishName = 'Ông bà, cô dì, chú bác, bạn bè';
   wishText = '';
   previewSignature = false;
   selectedGalleryImage?: string;
@@ -214,6 +224,12 @@ export class WeddingTwoComponent implements AfterViewInit, OnDestroy {
     minutes: '00',
     seconds: '00',
   };
+
+  ngOnInit(): void {
+    this.routeChanges = this.route.queryParamMap.subscribe(() => {
+      void this.loadGuestFromSheet();
+    });
+  }
 
   ngAfterViewInit(): void {
     this.updateCountdown();
@@ -231,12 +247,15 @@ export class WeddingTwoComponent implements AfterViewInit, OnDestroy {
       { rootMargin: '0px 0px -12% 0px', threshold: 0.18 },
     );
 
-    this.revealBlocks.forEach((block) =>
-      this.observer?.observe(block.nativeElement),
+    this.observeRevealBlocks();
+    this.revealChanges = this.revealBlocks.changes.subscribe(() =>
+      this.observeRevealBlocks(),
     );
   }
 
   ngOnDestroy(): void {
+    this.routeChanges?.unsubscribe();
+    this.revealChanges?.unsubscribe();
     this.observer?.disconnect();
     if (this.countdownTimer) {
       clearInterval(this.countdownTimer);
@@ -245,6 +264,123 @@ export class WeddingTwoComponent implements AfterViewInit, OnDestroy {
 
   private driveImage(id: string, size: number): string {
     return `https://drive.google.com/thumbnail?id=${id}&sz=w${size}`;
+  }
+
+  private observeRevealBlocks(): void {
+    this.revealBlocks?.forEach((block) => {
+      const element = block.nativeElement;
+
+      if (element.classList.contains('is-visible')) {
+        return;
+      }
+
+      this.observer?.observe(element);
+    });
+  }
+
+  private async loadGuestFromSheet(): Promise<void> {
+    this.guestName = 'Ông bà, cô dì, chú bác, bạn bè';
+    this.wishName = 'Ông bà, cô dì, chú bác, bạn bè';
+
+    const guestSlug = this.route.snapshot.queryParamMap.get('guest') ?? '';
+    const normalizedGuestSlug = this.slugifyGuest(guestSlug);
+
+    if (!normalizedGuestSlug) {
+      return;
+    }
+
+    try {
+      const response = await fetch(this.guestSheetUrl, { cache: 'no-store' });
+
+      if (!response.ok) {
+        throw new Error(`Guest sheet request failed: ${response.status}`);
+      }
+
+      const csv = await response.text();
+      const guestNames = this.parseCsv(csv)
+        .map((row) => row[0]?.trim() ?? '')
+        .filter(Boolean);
+      const matchedGuest = guestNames.find(
+        (name) => this.slugifyGuest(name) === normalizedGuestSlug,
+      );
+
+      if (!matchedGuest) {
+        return;
+      }
+
+      this.guestName = matchedGuest;
+      this.wishName = matchedGuest;
+    } catch {
+      return;
+    }
+  }
+
+  private parseCsv(csv: string): string[][] {
+    const rows: string[][] = [];
+    let field = '';
+    let row: string[] = [];
+    let inQuotes = false;
+
+    for (let index = 0; index < csv.length; index += 1) {
+      const char = csv[index];
+      const nextChar = csv[index + 1];
+
+      if (char === '"' && inQuotes && nextChar === '"') {
+        field += '"';
+        index += 1;
+        continue;
+      }
+
+      if (char === '"') {
+        inQuotes = !inQuotes;
+        continue;
+      }
+
+      if (char === ',' && !inQuotes) {
+        row.push(field);
+        field = '';
+        continue;
+      }
+
+      if ((char === '\n' || char === '\r') && !inQuotes) {
+        if (char === '\r' && nextChar === '\n') {
+          index += 1;
+        }
+
+        row.push(field);
+        rows.push(row);
+        field = '';
+        row = [];
+        continue;
+      }
+
+      field += char;
+    }
+
+    if (field || row.length) {
+      row.push(field);
+      rows.push(row);
+    }
+
+    return rows;
+  }
+
+  private slugifyGuest(value: string): string {
+    let decodedValue = value;
+
+    try {
+      decodedValue = decodeURIComponent(value);
+    } catch {
+      decodedValue = value;
+    }
+
+    return decodedValue
+      .replace(/đ/g, 'd')
+      .replace(/Đ/g, 'D')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-zA-Z0-9]/g, '')
+      .toLowerCase();
   }
 
   private updateCountdown(): void {

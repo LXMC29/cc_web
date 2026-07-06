@@ -16,7 +16,17 @@
     (click)="toggleMusic()"
     [attr.aria-label]="isMusicPlaying ? 'Tắt nhạc' : 'Mở nhạc'"
   >
-    <span class="speaker-icon"></span>
+    <span class="speaker-icon" aria-hidden="true">
+      <svg viewBox="0 0 48 48">
+        <path d="M7 19h9l12-10v30L16 29H7z"></path>
+        <path
+          *ngIf="isMusicPlaying"
+          class="sound-wave"
+          d="M33 17c3.2 4 3.2 10 0 14M38 12c6.1 7.2 6.1 16.8 0 24"
+        ></path>
+        <path *ngIf="!isMusicPlaying" class="mute-line" d="M8 40 40 8"></path>
+      </svg>
+    </span>
   </button>
 
   <nav class="quick-actions" aria-label="Wedding quick actions">

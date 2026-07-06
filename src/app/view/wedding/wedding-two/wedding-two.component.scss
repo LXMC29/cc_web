@@ -1425,53 +1425,34 @@ textarea {
 }
 
 .speaker-icon {
-  background: #fff;
-  border-radius: 3px 0 0 3px;
-  height: 18px;
-  position: relative;
-  transform: translateX(-8px);
-  width: 12px;
+  align-items: center;
+  display: flex;
+  height: 34px;
+  justify-content: center;
+  width: 34px;
 }
 
-.speaker-icon::before {
-  border-bottom: 15px solid transparent;
-  border-right: 20px solid #fff;
-  border-top: 15px solid transparent;
-  content: "";
-  left: 8px;
-  position: absolute;
-  top: -6px;
+.speaker-icon svg {
+  display: block;
+  height: 100%;
+  overflow: visible;
+  width: 100%;
 }
 
-.speaker-icon::after {
-  background: #fff;
-  border-radius: 999px;
-  content: "";
-  height: 42px;
-  left: 17px;
-  position: absolute;
-  top: -12px;
-  transform: rotate(42deg);
-  transform-origin: center;
-  width: 5px;
+.speaker-icon path {
+  fill: #fff;
 }
 
-.audio-toggle.is-playing .speaker-icon::after {
-  background: transparent;
-  border: 3px solid #fff;
-  border-bottom-color: transparent;
-  border-left-color: transparent;
-  border-radius: 50%;
-  height: 22px;
-  left: 18px;
-  top: -2px;
-  transform: rotate(45deg);
-  width: 22px;
+.speaker-icon .sound-wave,
+.speaker-icon .mute-line {
+  fill: none;
+  stroke: #fff;
+  stroke-linecap: round;
+  stroke-width: 4;
 }
 
-.audio-toggle.is-playing .speaker-icon {
+.audio-toggle.is-playing .speaker-icon svg {
   animation: speakerPulse 1.4s ease-in-out infinite;
-  transform: translateX(-10px);
 }
 
 .quick-actions {
