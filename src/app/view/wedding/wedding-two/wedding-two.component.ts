@@ -425,6 +425,22 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isQuickActionsOpen = !this.isQuickActionsOpen;
   }
 
+  scrollToSection(sectionId: string): void {
+    const target = document.getElementById(sectionId);
+
+    if (!target) {
+      return;
+    }
+
+    const targetTop =
+      target.getBoundingClientRect().top + window.scrollY - 18;
+
+    window.scrollTo({
+      top: targetTop,
+      behavior: 'smooth',
+    });
+  }
+
   toggleMusic(): void {
     this.isMusicPlaying = !this.isMusicPlaying;
     this.musicUrl = this.isMusicPlaying
