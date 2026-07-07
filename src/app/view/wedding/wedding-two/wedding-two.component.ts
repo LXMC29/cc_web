@@ -212,7 +212,7 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
   previewSignature = false;
   selectedGalleryImage?: string;
   isQuickActionsOpen = true;
-  isMusicPlaying = true;
+  isMusicPlaying = false;
   countdown = {
     days: '00',
     hours: '00',
