@@ -8,6 +8,7 @@ import {
   QueryList,
   ViewChildren,
   ViewChild,
+  HostListener,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -209,13 +210,21 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
   previewSignature = false;
   selectedGalleryImage?: string;
   isQuickActionsOpen = true;
-  isMusicPlaying = true;
+  isMusicPlaying = false;
   countdown = {
     days: '00',
     hours: '00',
     minutes: '00',
     seconds: '00',
   };
+
+  @HostListener('document:click', ['$event'])
+  firstClick() {
+    if (!this.isMusicPlaying) {
+      this.bgMusic.nativeElement.play();
+      this.isMusicPlaying = true;
+    }
+  }
 
   ngOnInit(): void {
     this.loadStoredWishes();
