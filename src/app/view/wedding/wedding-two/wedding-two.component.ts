@@ -218,11 +218,14 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
     seconds: '00',
   };
 
+  isClickMusic = false;
+
   @HostListener('document:click', ['$event'])
   firstClick() {
-    if (!this.isMusicPlaying) {
+    if (!this.isMusicPlaying && !this.isClickMusic) {
       this.bgMusic.nativeElement.play();
       this.isMusicPlaying = true;
+      this.isClickMusic = false;
     }
   }
 
@@ -449,7 +452,7 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toggleMusic(): void {
     const audio = this.bgMusic.nativeElement;
-
+    this.isClickMusic = true;
     if (this.isMusicPlaying) {
       audio.pause();
     } else {
