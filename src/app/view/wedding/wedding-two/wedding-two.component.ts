@@ -7,9 +7,9 @@ import {
   OnDestroy,
   QueryList,
   ViewChildren,
+  ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -33,6 +33,8 @@ interface Wish {
 })
 export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren('reveal') revealBlocks!: QueryList<ElementRef<HTMLElement>>;
+  @ViewChild('bgMusic')
+  bgMusic!: ElementRef<HTMLAudioElement>;
 
   private observer?: IntersectionObserver;
   private countdownTimer?: ReturnType<typeof setInterval>;
@@ -40,19 +42,12 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
   private routeChanges?: Subscription;
   private readonly weddingDate = new Date(2026, 6, 19, 10, 30, 0);
   private readonly wishesStorageKey = 'wedding-two-wishes';
-  private readonly musicEmbed =
-    'https://www.youtube.com/embed/LG5hQJsO8k0?si=LwqmN0Ylnt9YrMSG&autoplay=1&playsinline=1';
   private readonly guestSheetUrl =
     'https://docs.google.com/spreadsheets/d/e/2PACX-1vQehivFrQTpVbBBSflmnuk0W-uTfokNEhVn9tNJadn5XbHYH9XZYzAuEnVHwYx3e_rQbKiZLoJ8TvX3/pub?output=csv';
 
   constructor(
-    private readonly sanitizer: DomSanitizer,
     private readonly route: ActivatedRoute,
-  ) {
-    this.musicUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      this.musicEmbed,
-    );
-  }
+  ) {}
 
   readonly driveImageIds = [
     '1Ivyx186Z4cwFLcIwPOfQKSneEw2o8BrT',
@@ -215,7 +210,6 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedGalleryImage?: string;
   isQuickActionsOpen = true;
   isMusicPlaying = true;
-  musicUrl?: SafeResourceUrl;
   countdown = {
     days: '00',
     hours: '00',
@@ -231,6 +225,9 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this.bgMusic.nativeElement.play().catch(() => {
+    console.log('Browser chặn autoplay');
+  });
     this.updateCountdown();
     this.countdownTimer = setInterval(() => this.updateCountdown(), 1000);
 
@@ -442,10 +439,15 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   toggleMusic(): void {
-    this.isMusicPlaying = !this.isMusicPlaying;
-    this.musicUrl = this.isMusicPlaying
-      ? this.sanitizer.bypassSecurityTrustResourceUrl(this.musicEmbed)
-      : undefined;
+    const audio = this.bgMusic.nativeElement;
+
+    if (this.isMusicPlaying) {
+      audio.pause();
+    } else {
+      audio.play();
+    }
+
+  this.isMusicPlaying = !this.isMusicPlaying;
   }
 
   private loadStoredWishes(): void {
