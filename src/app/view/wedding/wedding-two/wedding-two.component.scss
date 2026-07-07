@@ -1246,6 +1246,11 @@ textarea {
   padding: 12px 18px;
 }
 
+.wish-form button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
 .gift h2 {
   color: var(--sage);
   font-family: Georgia, serif;

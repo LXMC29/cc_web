@@ -42,13 +42,14 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
   private revealChanges?: Subscription;
   private routeChanges?: Subscription;
   private readonly weddingDate = new Date(2026, 6, 19, 10, 30, 0);
-  private readonly wishesStorageKey = 'wedding-two-wishes';
   private readonly guestSheetUrl =
     'https://docs.google.com/spreadsheets/d/e/2PACX-1vQehivFrQTpVbBBSflmnuk0W-uTfokNEhVn9tNJadn5XbHYH9XZYzAuEnVHwYx3e_rQbKiZLoJ8TvX3/pub?output=csv';
+  private readonly wishSheetUrl =
+    'https://docs.google.com/spreadsheets/d/e/2PACX-1vQehivFrQTpVbBBSflmnuk0W-uTfokNEhVn9tNJadn5XbHYH9XZYzAuEnVHwYx3e_rQbKiZLoJ8TvX3/pub?gid=833705753&single=true&output=csv';
+  private readonly wishSubmitUrl =
+    'https://script.google.com/macros/s/AKfycbxQEEpAB9Ppokq_Or_TaLJ_yRT6nsqlthsi8PpCY2CRWAIihpBxJHTmUQzyomziWltu/exec';
 
-  constructor(
-    private readonly route: ActivatedRoute,
-  ) {}
+  constructor(private readonly route: ActivatedRoute) {}
 
   readonly driveImageIds = [
     '1Ivyx186Z4cwFLcIwPOfQKSneEw2o8BrT',
@@ -207,10 +208,11 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
   note = '';
   wishName = 'Ông bà, cô dì, chú bác, bạn bè';
   wishText = '';
+  isWishSubmitting = false;
   previewSignature = false;
   selectedGalleryImage?: string;
   isQuickActionsOpen = true;
-  isMusicPlaying = false;
+  isMusicPlaying = true;
   countdown = {
     days: '00',
     hours: '00',
@@ -219,18 +221,18 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
   };
 
   isClickMusic = false;
-
-  @HostListener('document:click', ['$event'])
-  firstClick() {
+  @HostListener('document:click')
+  firstClick(): void {
     if (!this.isMusicPlaying && !this.isClickMusic) {
       this.bgMusic.nativeElement.play();
+
       this.isMusicPlaying = true;
-      this.isClickMusic = false;
+      this.isClickMusic = true;
     }
   }
 
   ngOnInit(): void {
-    this.loadStoredWishes();
+    void this.loadSheetWishes();
     this.routeChanges = this.route.queryParamMap.subscribe(() => {
       void this.loadGuestFromSheet();
     });
@@ -238,8 +240,8 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.bgMusic.nativeElement.play().catch(() => {
-    console.log('Browser chặn autoplay');
-  });
+      console.log('Browser chặn autoplay');
+    });
     this.updateCountdown();
     this.countdownTimer = setInterval(() => this.updateCountdown(), 1000);
 
@@ -441,8 +443,7 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
 
-    const targetTop =
-      target.getBoundingClientRect().top + window.scrollY - 18;
+    const targetTop = target.getBoundingClientRect().top + window.scrollY - 18;
 
     window.scrollTo({
       top: targetTop,
@@ -459,55 +460,87 @@ export class WeddingTwoComponent implements OnInit, AfterViewInit, OnDestroy {
       audio.play();
     }
 
-  this.isMusicPlaying = !this.isMusicPlaying;
+    this.isMusicPlaying = !this.isMusicPlaying;
   }
 
-  private loadStoredWishes(): void {
-    try {
-      const storedValue = localStorage.getItem(this.wishesStorageKey);
-      const storedWishes = storedValue
-        ? (JSON.parse(storedValue) as Wish[])
-        : [];
-      const validStoredWishes = Array.isArray(storedWishes)
-        ? storedWishes.filter(
-            (wish) =>
-              typeof wish?.name === 'string' &&
-              typeof wish?.message === 'string' &&
-              wish.message.trim(),
-          )
-        : [];
+  private async loadSheetWishes(): Promise<void> {
+    if (!this.wishSheetUrl) {
+      this.wishes = [...this.defaultWishes];
+      return;
+    }
 
-      this.wishes = [...validStoredWishes, ...this.defaultWishes];
+    try {
+      const response = await fetch(this.wishSheetUrl, { cache: 'no-store' });
+
+      if (!response.ok) {
+        throw new Error(`Wish sheet request failed: ${response.status}`);
+      }
+
+      const csv = await response.text();
+      const sheetWishes = this.parseCsv(csv)
+        .map((row) => this.toWish(row))
+        .filter((wish): wish is Wish => Boolean(wish));
+
+      this.wishes = [...sheetWishes.reverse(), ...this.defaultWishes];
     } catch {
       this.wishes = [...this.defaultWishes];
     }
   }
 
-  private saveStoredWishes(wishes: Wish[]): void {
-    localStorage.setItem(this.wishesStorageKey, JSON.stringify(wishes));
+  private toWish(row: string[]): Wish | undefined {
+    const first = row[0]?.trim() ?? '';
+    const second = row[1]?.trim() ?? '';
+    const third = row[2]?.trim() ?? '';
+
+    if (!first && !second && !third) {
+      return undefined;
+    }
+
+    const firstLooksLikeDate =
+      /^\d{1,4}[/-]\d{1,2}[/-]\d{1,4}/.test(first) ||
+      /^\d{1,2}:\d{2}/.test(first) ||
+      first.includes('GMT');
+    const name = firstLooksLikeDate ? second : first;
+    const message = firstLooksLikeDate ? third : second;
+
+    if (!message) {
+      return undefined;
+    }
+
+    return {
+      name: name || 'Khách mời',
+      message,
+    };
   }
 
-  saveWish(): void {
+  async saveWish(): Promise<void> {
     const name = this.wishName.trim() || 'Khách mời';
     const message = this.wishText.trim();
 
-    if (!message) {
+    if (!message || this.isWishSubmitting) {
       return;
     }
 
     const newWish = { name, message };
-    const storedWishes = this.wishes.filter(
-      (wish) =>
-        !this.defaultWishes.some(
-          (defaultWish) =>
-            defaultWish.name === wish.name &&
-            defaultWish.message === wish.message,
-        ),
-    );
-    const nextStoredWishes = [newWish, ...storedWishes];
+    this.isWishSubmitting = true;
 
-    this.saveStoredWishes(nextStoredWishes);
-    this.wishes = [...nextStoredWishes, ...this.defaultWishes];
-    this.wishText = '';
+    try {
+      if (this.wishSubmitUrl) {
+        const payload = new FormData();
+        payload.append('name', name);
+        payload.append('message', message);
+
+        await fetch(this.wishSubmitUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: payload,
+        });
+      }
+
+      this.wishes = [newWish, ...this.wishes];
+      this.wishText = '';
+    } finally {
+      this.isWishSubmitting = false;
+    }
   }
 }

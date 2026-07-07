@@ -202,7 +202,13 @@
         <strong>TẠI TƯ GIA NHÀ TRAI</strong><br />Xóm 6<br />Xã Đại Đồng - tỉnh
         Nghệ An
       </p>
-      <button class="mini-button" type="button" (click)="scrollToSection('map')">Xem vị trí</button>
+      <button
+        class="mini-button"
+        type="button"
+        (click)="scrollToSection('map')"
+      >
+        Xem vị trí
+      </button>
     </div>
     <figure>
       <img [src]="mainImage" alt="Ảnh áo dài cưới đỏ" />
@@ -291,15 +297,14 @@
     </div>
     <form class="wish-form">
       <input [(ngModel)]="wishName" name="wishName" />
-      <select>
-        <option>Ai sẽ thấy lời chúc của bạn?</option>
-      </select>
       <textarea
         [(ngModel)]="wishText"
         name="wishText"
         placeholder="Gửi lời chúc đến cô dâu chú rể..."
       ></textarea>
-      <button type="button" (click)="saveWish()">GỬI LỜI CHÚC</button>
+      <button type="button" (click)="saveWish()" [disabled]="isWishSubmitting">
+        {{ isWishSubmitting ? "ĐANG GỬI..." : "GỬI LỜI CHÚC" }}
+      </button>
     </form>
   </section>
 
